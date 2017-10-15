@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,30 +29,36 @@ namespace AccidentRepost.Controllers
             return View();
         }
 
-        
-        public string GetEvents()
+        public ActionResult GetEvents()
         {
 
             eyewitEntities dbeyewitEntities = new eyewitEntities();
 
             string json = JsonConvert.SerializeObject(dbeyewitEntities.events.ToArray());
-
-            return json;
+            return Json( json, JsonRequestBehavior.AllowGet);
 
         }
 
-        public string AddEvent()
+        [HttpPost]
+        public string AddEvent(string message)
         {
-            eyewitEntities dbEyewitEntity = new eyewitEntities();
-            events newEvent = new events();
-            newEvent.name = "added";
-            newEvent.registered_date = DateTime.Now;
-            dbEyewitEntity.events.Add(newEvent);
-            var result = dbEyewitEntity.SaveChanges();
-            return result.ToString();
+            try
+            {
+                events newEvent = (events)JsonConvert.DeserializeObject<events>(message);
+                var result = 0;
+                using (var dbContext = new eyewitEntities())
+                {
+                    dbContext.events.Add(newEvent);
+                    result = dbContext.SaveChanges();
+                }
+
+                return result.ToString();
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
         }
-
-
 
     }
 }

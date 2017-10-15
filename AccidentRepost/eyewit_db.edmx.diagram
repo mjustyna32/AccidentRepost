@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="97c4c4c41563499eb5cc8708b17a7fb0" Name="Diagram1">
-        <EntityTypeShape EntityType="eyewitModel.events" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eyewitModel.events" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

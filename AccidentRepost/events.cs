@@ -16,6 +16,9 @@ namespace AccidentRepost
     {
         public int id { get; set; }
         public string name { get; set; }
-        public Nullable<System.DateTime> registered_date { get; set; }
+        public string lat { get; set; }
+        public string lon { get; set; }
+        public string video_url { get; set; }
+        public string date { get; set; }
     }
 }
