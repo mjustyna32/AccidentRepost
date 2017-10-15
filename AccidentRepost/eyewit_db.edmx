@@ -12,11 +12,11 @@ warning 6002: The table/view 'eyewit.dbo.events' does not have a primary key def
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="text" />
           <Property Name="lat" Type="text" />
           <Property Name="lon" Type="text" />
           <Property Name="video_url" Type="text" />
           <Property Name="date" Type="text" />
+          <Property Name="important" Type="bit" />
         </EntityType>
         <EntityContainer Name="eyewitModelStoreContainer">
           <EntitySet Name="events" EntityType="Self.events" store:Type="Tables" Schema="dbo">
@@ -31,11 +31,11 @@ warning 6002: The table/view 'eyewit.dbo.events' does not have a primary key def
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="lon" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="video_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="date" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="important" Type="Boolean" />
         </EntityType>
         <EntityContainer Name="eyewitEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="events" EntityType="Self.events" />
@@ -49,12 +49,12 @@ warning 6002: The table/view 'eyewit.dbo.events' does not have a primary key def
           <EntitySetMapping Name="events">
             <EntityTypeMapping TypeName="eyewitModel.events">
               <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="important" ColumnName="important" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="video_url" ColumnName="video_url" />
                 <ScalarProperty Name="lon" ColumnName="lon" />
                 <ScalarProperty Name="lat" ColumnName="lat" />
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

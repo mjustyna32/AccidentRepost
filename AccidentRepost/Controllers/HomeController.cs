@@ -29,14 +29,28 @@ namespace AccidentRepost.Controllers
             return View();
         }
 
-        public ActionResult GetEvents()
+        public ActionResult GetEvents(bool importantOnly = true)
         {
-
             eyewitEntities dbeyewitEntities = new eyewitEntities();
-
-            string json = JsonConvert.SerializeObject(dbeyewitEntities.events.ToArray());
+            var allEvents = dbeyewitEntities.events.ToList();
+            if(importantOnly)
+                RemoveUnnecessaryEvents(allEvents);
+            var requestedEvents = allEvents.ToArray();
+            string json = JsonConvert.SerializeObject(requestedEvents);
             return Json( json, JsonRequestBehavior.AllowGet);
+        }
 
+        private static void RemoveUnnecessaryEvents(List<events> allEvents)
+        {
+            foreach (events e in allEvents)
+            {
+                if ((bool)!e.important)
+                {
+                    allEvents.Remove(e);
+                    RemoveUnnecessaryEvents(allEvents);
+                    break;
+                }
+            }
         }
 
         [HttpPost]
@@ -57,6 +71,22 @@ namespace AccidentRepost.Controllers
             catch (Exception e)
             {
                 return e.ToString();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ChangeEventState(int id)
+        {
+            eyewitEntities eyewitContext = new eyewitEntities();
+            try
+            {
+                events eventToUpdate = eyewitContext.events.Find(id);
+                eventToUpdate.important = !eventToUpdate.important;
+                eyewitContext.SaveChanges();
+                return GetEvents();
+            }catch(Exception e)
+            {
+                return Content("Change state error");
             }
         }
 
